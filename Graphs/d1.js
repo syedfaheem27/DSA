@@ -55,7 +55,7 @@ function distinctIslandsDFS(grid) {
 //BFS - less optimal than dfs because of enqueing and dequeing
 function distinctIslandsBFS(grid) {
   let n = grid.length;
-  let m = grid.length;
+  let m = grid[0].length;
 
   let queue = new Queue();
   let set = new Set();

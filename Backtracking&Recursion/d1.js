@@ -119,3 +119,82 @@ var countMaxOrSubsets = function (nums) {
 
   return res;
 };
+
+/*------------------------------------*/
+
+//Print all subsequences who sum is k
+
+function subsequenceSumK(k, arr) {
+  let n = arr.length;
+
+  const calculate = (index, subset, sum) => {
+    if (sum === k) {
+      console.log(subset);
+    }
+
+    for (let i = index; i < n; i++) {
+      subset.push(arr[i]);
+
+      calculate(i + 1, subset, sum + arr[i]);
+      subset.pop();
+    }
+  };
+
+  calculate(0, [], 0);
+}
+
+/*----------------------------*/
+
+//Print the first subsequence who sum is k - don't use global variables
+
+function firstSubSeq_K(k, arr) {
+  let n = arr.length;
+
+  const calculate = (index, subset, sum) => {
+    if (sum === k) {
+      console.log(subset);
+      return true;
+    }
+
+    for (let i = index; i < n; i++) {
+      subset.push(arr[i]);
+
+      let bool = calculate(i + 1, subset, sum + arr[i]);
+
+      if (bool) return true;
+
+      subset.pop();
+    }
+
+    return false;
+  };
+
+  calculate(0, [], 0);
+}
+
+/*-----------------------------------*/
+
+//Count the number of subsequences with sum equal to k - don't use global variables
+
+function countSubSeq_k(k, arr) {
+  let n = arr.length;
+
+  const countSubs = (index, sum) => {
+    if (index >= n) {
+      if (sum === k) return 1;
+      else return 0;
+    }
+
+    sum += arr[index];
+    let l = countSubs(index + 1, sum);
+
+    sum -= arr[index];
+    let r = countSubs(index + 1, sum);
+
+    return l + r;
+  };
+
+  const count = countSubs(0, 0);
+
+  console.log(count);
+}
