@@ -98,3 +98,48 @@ function distinctIslandsBFS(grid) {
 
   return set.size;
 }
+
+/*-----------------------------------------*/
+
+//Bipartite graphs
+
+//BFS - TC=>O(V+2E) & SC => O(V)
+
+function isBipartiteBFS(V, adj) {
+  const bfs = (queue, adj, isColored) => {
+    while (!queue.isEmpty()) {
+      let [node, color] = queue.remove();
+      isColored[node] = color;
+      let arr = adj[node];
+
+      for (let i = 0; i < arr.length; i++) {
+        let vertex = arr[i];
+
+        if (vertex === node) continue;
+
+        if (isColored[vertex] !== -1) {
+          if (isColored[vertex] === color) return false;
+          else continue;
+        }
+
+        let alternateColor = color === 0 ? 1 : 0;
+        queue.add([vertex, alternateColor]);
+      }
+    }
+
+    return true;
+  };
+
+  let isColored = Array.from({ length: V }, () => -1);
+
+  let queue = new Queue();
+
+  for (let i = 0; i < V; i++) {
+    if (isColored[i] === -1) {
+      queue.add([i, 0]);
+      if (!this.bfs(queue, adj, isColored)) return false;
+    }
+  }
+
+  return true;
+}
