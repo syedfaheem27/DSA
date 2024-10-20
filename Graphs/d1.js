@@ -137,7 +137,41 @@ function isBipartiteBFS(V, adj) {
   for (let i = 0; i < V; i++) {
     if (isColored[i] === -1) {
       queue.add([i, 0]);
-      if (!this.bfs(queue, adj, isColored)) return false;
+      if (!bfs(queue, adj, isColored)) return false;
+    }
+  }
+
+  return true;
+}
+
+//DFS
+
+function isBipartiteDFS(V, adj) {
+  const dfs = (node, adj, isColored, color) => {
+    isColored[node] = color;
+    let arr = adj[node];
+    for (let i = 0; i < arr.length; i++) {
+      let vertex = arr[i];
+
+      if (vertex === node) continue;
+
+      if (isColored[vertex] !== -1) {
+        if (isColored[vertex] === color) return false;
+        else continue;
+      }
+
+      let adjacentColor = color === 0 ? 1 : 0;
+      if (!dfs(vertex, adj, isColored, adjacentColor)) return false;
+    }
+
+    return true;
+  };
+
+  let isColored = Array.from({ length: V }, () => -1);
+
+  for (let i = 0; i < V; i++) {
+    if (isColored[i] === -1) {
+      if (!dfs(i, adj, isColored, 0)) return false;
     }
   }
 
