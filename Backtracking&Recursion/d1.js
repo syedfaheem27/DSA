@@ -198,3 +198,80 @@ function countSubSeq_k(k, arr) {
 
   console.log(count);
 }
+
+/*-----------------------------------------*/
+
+//Merge Sort
+
+function mergeSort(arr) {
+  //helper
+  const mergeSortedArrays = (arr1, arr2) => {
+    let n = arr1.length;
+    let m = arr2.length;
+
+    let i = 0,
+      j = 0;
+
+    let arr = [];
+
+    while (i < n && j < m) {
+      if (arr1[i] <= arr2[j]) {
+        arr.push(arr1[i]);
+        i++;
+      } else {
+        arr.push(arr2[j]);
+        j++;
+      }
+    }
+
+    for (let k = i; k < n; k++) arr.push(arr1[i]);
+
+    for (let k = j; k < m; k++) arr.push(arr2[k]);
+
+    return arr;
+  };
+
+  const divideAndmerge = (start, end) => {
+    if (start >= end) return [arr[start]];
+
+    let mid = Math.floor((start + end) / 2);
+
+    let arr1 = divideAndmerge(start, mid);
+    let arr2 = divideAndmerge(mid + 1, end);
+
+    return mergeSortedArrays(arr1, arr2);
+  };
+
+  return divideAndmerge(0, arr.length - 1);
+}
+
+/*------------------------------------*/
+
+//Quick Sort
+
+function quickSort(arr, start, end) {
+  if (start >= end) return;
+  //helper
+  const getPivot = (arr, start, end) => {
+    let pivot = start;
+    let pivotEl = arr[pivot];
+    let insertionIdx = start;
+
+    for (let i = start + 1; i <= end; i++) {
+      if (arr[i] < pivotEl) {
+        if (arr[insertionIdx] === pivotEl) pivot = i;
+
+        [arr[insertionIdx], arr[i]] = [arr[i], arr[insertionIdx]];
+        insertionIdx++;
+      }
+    }
+
+    [arr[insertionIdx], arr[pivot]] = [arr[pivot], arr[insertionIdx]];
+
+    return insertionIdx;
+  };
+
+  let pivotIdx = getPivot(arr, start, end);
+  quickSort(arr, start, pivotIdx - 1);
+  quickSort(arr, pivotIdx + 1, end);
+}
