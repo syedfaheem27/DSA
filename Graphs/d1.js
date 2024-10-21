@@ -106,38 +106,40 @@ function distinctIslandsBFS(grid) {
 //BFS - TC=>O(V+2E) & SC => O(V)
 
 function isBipartiteBFS(V, adj) {
-  const bfs = (queue, adj, isColored) => {
+  const bfs = (node, adj, isColored) => {
+    const queue = new Queue();
+    queue.add([node, 0]);
+
     while (!queue.isEmpty()) {
-      let [node, color] = queue.remove();
-      isColored[node] = color;
-      let arr = adj[node];
+      const [n, color] = queue.remove();
+      isColored[n] = color;
+
+      let arr = adj[n];
 
       for (let i = 0; i < arr.length; i++) {
         let vertex = arr[i];
 
-        if (vertex === node) continue;
+        if (vertex === n) continue;
 
         if (isColored[vertex] !== -1) {
           if (isColored[vertex] === color) return false;
           else continue;
         }
 
-        let alternateColor = color === 0 ? 1 : 0;
-        queue.add([vertex, alternateColor]);
+        let adjColor = color === 0 ? 1 : 0;
+
+        queue.add([vertex, adjColor]);
       }
     }
 
     return true;
   };
 
-  let isColored = Array.from({ length: V }, () => -1);
-
-  let queue = new Queue();
+  const isColored = Array.from({ length: V }, () => -1);
 
   for (let i = 0; i < V; i++) {
     if (isColored[i] === -1) {
-      queue.add([i, 0]);
-      if (!bfs(queue, adj, isColored)) return false;
+      if (!bfs(i, adj, isColored)) return false;
     }
   }
 
