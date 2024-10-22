@@ -74,3 +74,49 @@ function detectCycleUnDFS(adj) {
 
   return false;
 }
+
+/*-------------------------------*/
+
+//Detecting a cycle in a directed graph
+
+//basically the node stack keeps track of the path, and if a node is visited and it's there in the stack
+//it means we the path to that node must have a cycle. If it's visited, but it's not in the stack, means
+//we retreated somewhere and came back from a different path.
+
+//O(V+E)
+
+/**
+ * @param {number} V
+ * @param {number[][]} adj
+ * @returns {boolean}
+ */
+function detectCyleDirDFS(v, adj) {
+  const visited = Array.from({ length: v }, () => false);
+  const nodeStack = Array.from({ length: v }, () => false);
+
+  const hasCycle = (node, adj, visited, nodeStack) => {
+    visited[node] = true;
+    nodeStack[node] = true;
+
+    let neighbours = adj[node];
+    for (let i = 0; i < neighbours.length; i++) {
+      let vertex = neighbours[i];
+
+      if (visited[vertex]) {
+        if (nodeStack[vertex]) return true;
+        else continue;
+      }
+
+      if (hasCycle(vertex, adj, visited, nodeStack)) return true;
+    }
+    nodeStack[node] = false;
+
+    return false;
+  };
+
+  for (let i = 0; i < v; i++) {
+    if (hasCycle(i, adj, visited, nodeStack)) return true;
+  }
+
+  return false;
+}
