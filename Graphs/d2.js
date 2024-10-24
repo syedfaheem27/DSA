@@ -1,7 +1,7 @@
 //1. Detect cycle in an undirected graph
 
 //BFS
-import Queue from "../Common/queue";
+const Queue = require("../Common/queue");
 
 //nodes 0=>n-1
 function detectCycleUnBFS(adj) {
@@ -120,3 +120,10 @@ function detectCyleDirDFS(v, adj) {
 
   return false;
 }
+
+/*-----------------------------------------*/
+
+//Find Eventual safe states
+
+//a terminal node is one with no outbound connections. Find safe nodes => terminal + nodes whose all
+//outbound conns end in a terminal node

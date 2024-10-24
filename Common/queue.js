@@ -1,4 +1,4 @@
-export default class Queue {
+class Queue {
   constructor() {
     this.arr = [];
     this.front = 0;
@@ -22,3 +22,4 @@ export default class Queue {
     return this.front > this.back;
   }
 }
+module.exports = Queue;

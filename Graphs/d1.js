@@ -1,6 +1,6 @@
 // Number of distinct islands
 
-import Queue from "../Common/queue";
+const Queue = require("../Common/queue");
 
 //Approach- Traverse each island in a similar manner
 //and use origin shifting and push the co-ordinates as string into a set
