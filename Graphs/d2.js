@@ -127,3 +127,42 @@ function detectCyleDirDFS(v, adj) {
 
 //a terminal node is one with no outbound connections. Find safe nodes => terminal + nodes whose all
 //outbound conns end in a terminal node
+
+function eventualSafeStates(graph) {
+  let v = graph.length;
+
+  let visited = Array.from({ length: v }, () => false);
+  let terminal = Array.from({ length: v }, () => true);
+  let stack = Array.from({ length: v }, () => false);
+
+  for (let i = 0; i < v; i++) {
+    if (!visited[i]) isSafe(i, graph, visited, terminal, stack);
+  }
+
+  let result = [];
+  for (let i = 0; i < v; i++) if (terminal[i]) result.push(i);
+
+  return result;
+}
+
+function isSafe(node, graph, visited, terminal, stack) {
+  if (visited[node]) {
+    if (stack[node]) return false;
+    if (terminal[node]) return true;
+  }
+
+  visited[node] = true;
+  stack[node] = true;
+  let neighbours = graph[node];
+
+  for (const vertex of neighbours) {
+    if (!isSafe(vertex, graph, visited, terminal, stack)) {
+      terminal[node] = false;
+      stack[node] = false;
+      return false;
+    }
+  }
+
+  stack[node] = false;
+  return true;
+}
