@@ -83,7 +83,7 @@ function permutationsI(nums) {
 }
 
 //Using a map
-function permute(nums) {
+function permutationsII(nums) {
   let map = new Map();
 
   for (const n of nums) map.set(n, 1);
@@ -110,4 +110,30 @@ function permute(nums) {
   getAllPermutations(map, result, []);
 
   return result;
+}
+
+//Most optimal in case of the space complexity
+//not using any additional data structure
+
+function permutationsIII(nums) {
+  let result = [];
+  const swap = (i, j, arr) => {
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  };
+
+  const getPermutations = (index, nums, result) => {
+    if (index === nums.length) {
+      result.push([...nums]);
+      return;
+    }
+
+    for (let i = index; i < nums.length; i++) {
+      swap(i, index, nums);
+      getPermutations(index + 1, nums, result);
+      swap(i, index, nums);
+    }
+  };
+  getPermutations(0, nums, result);
 }
