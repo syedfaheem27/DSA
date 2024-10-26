@@ -275,3 +275,34 @@ function quickSort(arr, start, end) {
   quickSort(arr, start, pivotIdx - 1);
   quickSort(arr, pivotIdx + 1, end);
 }
+
+//Quick sort => Chosing the pivot using the hoare's algorithm
+function quickSortI(arr, start, end) {
+  if (start >= end) return;
+
+  const getPivot = (arr, start, end) => {
+    let pivotEl = arr[end];
+    let i = start,
+      j = end - 1;
+
+    while (i < j) {
+      while (i < j && arr[i] <= pivotEl) i++;
+      while (i < j && arr[j] > pivotEl) j--;
+
+      if (i >= j) break;
+
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+
+    if (arr[i] > pivotEl) {
+      [arr[i], arr[end]] = [arr[end], arr[i]];
+      return i;
+    }
+
+    return end;
+  };
+
+  const pivotIdx = getPivot(arr, start, end);
+  quickSortI(arr, start, pivotIdx - 1);
+  quickSortI(arr, pivotIdx + 1, end);
+}
