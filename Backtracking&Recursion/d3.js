@@ -1,3 +1,5 @@
+const Queue = require("../Common/queue");
+
 //Subset Sum I(GFG)
 function subsetSums(arr, n) {
   let result = [];
@@ -44,4 +46,36 @@ function getSubsets(index, nums, result, temp) {
     getSubsets(i + 1, nums, result, temp);
     temp.pop();
   }
+}
+
+/*--------------------------------------------------------------*/
+
+//Permutations I(leetcode)
+
+//TC O(n!*n) - overall there are n! permutations and for each permutation, i have to make n calls.
+//SC O(n+n) => O(n)
+function permutationsI(nums) {
+  const queue = new Queue();
+  for (let n of nums) queue.add(n);
+
+  let result = [];
+
+  const getAllPermutations = (queue, result, temp) => {
+    if (queue.length === 0) {
+      result.add([...temp]);
+      return;
+    }
+
+    let len = queue.length;
+
+    for (let i = 0; i < len; i++) {
+      temp.push(queue.remove());
+      getAllPermutations(queue, result, temp);
+      queue.add(temp.pop());
+    }
+  };
+
+  getAllPermutations(queue, result, []);
+
+  return result;
 }

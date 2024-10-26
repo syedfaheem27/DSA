@@ -21,5 +21,10 @@ class Queue {
   isEmpty() {
     return this.front > this.back;
   }
+
+  get length() {
+    if (this.isEmpty()) return 0;
+    return this.back - this.front + 1;
+  }
 }
 module.exports = Queue;
