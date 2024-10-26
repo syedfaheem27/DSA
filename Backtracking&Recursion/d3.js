@@ -54,6 +54,8 @@ function getSubsets(index, nums, result, temp) {
 
 //TC O(n!*n) - overall there are n! permutations and for each permutation, i have to make n calls.
 //SC O(n+n) => O(n)
+
+//Using a queue
 function permutationsI(nums) {
   const queue = new Queue();
   for (let n of nums) queue.add(n);
@@ -76,6 +78,36 @@ function permutationsI(nums) {
   };
 
   getAllPermutations(queue, result, []);
+
+  return result;
+}
+
+//Using a map
+function permute(nums) {
+  let map = new Map();
+
+  for (const n of nums) map.set(n, 1);
+
+  let result = [];
+  const getAllPermutations = (map, result, temp) => {
+    if (map.size === 0) {
+      result.push([...temp]);
+      return;
+    }
+
+    let len = map.size;
+
+    for (const [key, _] of map) {
+      if (len === 0) break;
+
+      temp.push(key);
+      map.delete(key);
+      getAllPermutations(map, result, temp);
+      map.set(temp.pop(), 1);
+      len--;
+    }
+  };
+  getAllPermutations(map, result, []);
 
   return result;
 }
