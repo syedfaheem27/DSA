@@ -1,5 +1,8 @@
 //Permutations 2 (leetcode)
 
+//TC O(n*n!)
+//SC O(2n) ~ O(n)
+
 function perm(nums) {
   nums.sort((a, b) => a - b);
   let result = [];
@@ -31,3 +34,7 @@ function swap(i, j, nums) {
   nums[i] = nums[j];
   nums[j] = temp;
 }
+
+/*------------------------------------------------*/
+
+//Permutations in a string
