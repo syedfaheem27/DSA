@@ -67,3 +67,36 @@ function kahnAlgo(adj) {
 
   return result;
 }
+
+/*--------------------------------------------*/
+
+//Detect a cycle in a directed graph using kahn's algorithm
+
+function detectCycle(adj) {
+  const v = adj.length;
+  const indegree = Array.from({ length: v }, () => 0);
+
+  for (let i = 0; i < v; i++) {
+    let neigh = adj[i];
+    for (let j = 0; j < neigh.length; j++) indegree[neigh[j]]++;
+  }
+
+  const queue = new Queue();
+
+  for (let i = 0; i < v; i++) if (indegree[i] === 0) queue.add(i);
+
+  let count = 0;
+  while (!queue.isEmpty()) {
+    const node = queue.remove();
+    let neigh = adj[node];
+
+    for (let i = 0; i < neigh.length; i++) {
+      const vertex = neigh[j];
+      indegree[vertex]--;
+      if (indegree[vertex] === 0) queue.add(vertex);
+    }
+    count++;
+  }
+
+  return count !== v;
+}
